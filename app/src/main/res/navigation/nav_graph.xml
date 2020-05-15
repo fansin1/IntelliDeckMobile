@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/ActiveCardsFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="org.fansin.intellideck.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/ActiveCardsFragment"
+        android:name="org.fansin.intellideck.ActiveCardsFragment"
+        android:label="@string/active_cards_fragment_label"
+        tools:layout="@layout/fragment_active_cards">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/InactiveCardsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="org.fansin.intellideck.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/InactiveCardsFragment"
+        android:name="org.fansin.intellideck.InactiveCardsFragment"
+        android:label="@string/inactive_cards_fragment_label"
+        tools:layout="@layout/fragment_inactive_cards">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/ActiveCardsFragment" />
     </fragment>
 </navigation>
