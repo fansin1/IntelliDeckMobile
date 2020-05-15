@@ -6,13 +6,19 @@ import android.view.Menu
 import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
+import org.fansin.intellideck.deck.active.ActiveDeckAdapter
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var activeDeckAdapter: ActiveDeckAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        App.applicationComponent.inject(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -26,7 +32,10 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_add -> true
+            R.id.action_add -> {
+                activeDeckAdapter.enterEditMode()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
