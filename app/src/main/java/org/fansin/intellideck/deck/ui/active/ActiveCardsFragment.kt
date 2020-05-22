@@ -1,19 +1,18 @@
-package org.fansin.intellideck.deck.active
+package org.fansin.intellideck.deck.ui.active
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_active_cards.view.*
-import org.fansin.intellideck.*
-import org.fansin.intellideck.deck.GridSpacingItemDecoration
+import org.fansin.intellideck.App
+import org.fansin.intellideck.AppConfig
+import org.fansin.intellideck.R
+import org.fansin.intellideck.deck.ui.GridSpacingItemDecoration
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class ActiveCardsFragment : Fragment() {
 
     @Inject
@@ -23,10 +22,9 @@ class ActiveCardsFragment : Fragment() {
     lateinit var appConfig: AppConfig
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_active_cards, container, false)
     }
 
@@ -35,6 +33,7 @@ class ActiveCardsFragment : Fragment() {
         App.applicationComponent.inject(this)
 
         view.activeCardsRecyclerView.layoutManager = GridLayoutManager(context, appConfig.spanCount)
+        view.activeCardsRecyclerView.recycledViewPool.setMaxRecycledViews(0, Int.MAX_VALUE)
         val itemDecoration =
             GridSpacingItemDecoration(
                 appConfig.spanCount,
@@ -44,5 +43,8 @@ class ActiveCardsFragment : Fragment() {
             )
         view.activeCardsRecyclerView.addItemDecoration(itemDecoration)
         view.activeCardsRecyclerView.adapter = activeDeckAdapter
+        view.emptySpace.setOnClickListener {
+            activeDeckAdapter.exitEditMode()
+        }
     }
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/ActiveCardsFragment"
-        android:name="org.fansin.intellideck.deck.active.ActiveCardsFragment"
+        android:name="org.fansin.intellideck.deck.ui.active.ActiveCardsFragment"
         android:label="@string/active_cards_fragment_label"
         tools:layout="@layout/fragment_active_cards">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/InactiveCardsFragment"
-        android:name="org.fansin.intellideck.deck.inactive.InactiveCardsFragment"
+        android:name="org.fansin.intellideck.deck.ui.inactive.InactiveCardsFragment"
         android:label="@string/inactive_cards_fragment_label"
         tools:layout="@layout/fragment_inactive_cards">
 

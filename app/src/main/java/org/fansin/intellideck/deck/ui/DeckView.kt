@@ -1,4 +1,4 @@
-package org.fansin.intellideck.deck
+package org.fansin.intellideck.deck.ui
 
 import android.content.Context
 import android.graphics.Color
@@ -26,7 +26,10 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
 
     fun enterEditMode() {
         closeButton.visibility = View.VISIBLE
-        cardImage.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY)
+        cardImage.setColorFilter(
+            Color.rgb(123, 123, 123),
+            android.graphics.PorterDuff.Mode.MULTIPLY
+        )
     }
 
     fun exitEditMode() {

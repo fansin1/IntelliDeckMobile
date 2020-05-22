@@ -1,25 +1,19 @@
-package org.fansin.intellideck.deck
+package org.fansin.intellideck.deck.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.fansin.intellideck.deck.domain.DeckItem
 
-abstract class DeckAdapter(
-    protected val repository: DeckRepository
-): RecyclerView.Adapter<DeckViewHolder>() {
-
-    abstract val items: List<DeckItem>
-
-    init {
-        repository.addItemsChangedListener {
-            notifyDataSetChanged()
-        }
-    }
+open class DeckAdapter(
+    protected val items: MutableList<DeckItem>
+) : RecyclerView.Adapter<DeckViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckViewHolder {
         val deckView = DeckView(parent.context)
 
         return DeckViewHolder(deckView)
     }
+
 
     override fun getItemCount(): Int {
         return items.size

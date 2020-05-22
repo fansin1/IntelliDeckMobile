@@ -1,9 +1,9 @@
 package org.fansin.intellideck.di
 
 import dagger.Component
-import org.fansin.intellideck.deck.active.ActiveCardsFragment
-import org.fansin.intellideck.deck.inactive.InactiveCardsFragment
 import org.fansin.intellideck.MainActivity
+import org.fansin.intellideck.deck.ui.active.ActiveCardsFragment
+import org.fansin.intellideck.deck.ui.inactive.InactiveCardsFragment
 import javax.inject.Singleton
 
 @Component(

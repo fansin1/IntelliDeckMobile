@@ -1,18 +1,21 @@
 package org.fansin.intellideck
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import org.fansin.intellideck.deck.active.ActiveDeckAdapter
+import org.fansin.intellideck.deck.domain.DeckObservable
+import org.fansin.intellideck.deck.domain.DeckRepository
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var activeDeckAdapter: ActiveDeckAdapter
+    lateinit var deckRepository: DeckRepository
+
+    @Inject
+    lateinit var deckObservable: DeckObservable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +30,14 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    //TODO: Create toolbar controller
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_add -> {
-                activeDeckAdapter.enterEditMode()
+                deckObservable.onItemAdded(deckRepository.inactiveItems.first())
                 true
             }
             else -> super.onOptionsItemSelected(item)

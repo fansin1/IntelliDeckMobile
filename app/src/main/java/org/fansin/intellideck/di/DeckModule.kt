@@ -3,9 +3,10 @@ package org.fansin.intellideck.di
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import org.fansin.intellideck.deck.active.ActiveDeckAdapter
-import org.fansin.intellideck.deck.DeckRepository
-import org.fansin.intellideck.deck.inactive.InactiveDeckAdapter
+import org.fansin.intellideck.deck.domain.DeckObservable
+import org.fansin.intellideck.deck.domain.DeckRepository
+import org.fansin.intellideck.deck.ui.active.ActiveDeckAdapter
+import org.fansin.intellideck.deck.ui.inactive.InactiveDeckAdapter
 import javax.inject.Singleton
 
 @Module
@@ -13,23 +14,31 @@ class DeckModule {
 
     @Singleton
     @Provides
-    fun provideDeckRepository(context: Context): DeckRepository {
-        return DeckRepository(context)
+    fun provideDeckObservable(): DeckObservable {
+        return DeckObservable()
     }
 
     @Singleton
     @Provides
-    fun provideActiveDeckAdapter(deckRepository: DeckRepository): ActiveDeckAdapter {
-        return ActiveDeckAdapter(
-            deckRepository
-        )
+    fun provideDeckRepository(context: Context, deckObservable: DeckObservable): DeckRepository {
+        return DeckRepository(context, deckObservable)
     }
 
     @Singleton
     @Provides
-    fun provideInactiveDeckAdapter(deckRepository: DeckRepository): InactiveDeckAdapter {
-        return InactiveDeckAdapter(
-            deckRepository
-        )
+    fun provideActiveDeckAdapter(
+        deckRepository: DeckRepository,
+        deckObservable: DeckObservable
+    ): ActiveDeckAdapter {
+        return ActiveDeckAdapter(deckObservable, deckRepository.activeItems)
+    }
+
+    @Singleton
+    @Provides
+    fun provideInactiveDeckAdapter(
+        deckRepository: DeckRepository,
+        deckObservable: DeckObservable
+    ): InactiveDeckAdapter {
+        return InactiveDeckAdapter(deckObservable, deckRepository.inactiveItems)
     }
 }

@@ -1,4 +1,4 @@
-package org.fansin.intellideck.deck
+package org.fansin.intellideck.deck.ui
 
 import android.graphics.Rect
 import android.view.View
