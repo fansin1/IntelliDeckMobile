@@ -16,14 +16,12 @@ class ActiveDeckAdapter(
     private var isInEditMode = false
 
     private val deckObserver = object : DeckObserver {
-        override fun onItemAdded(item: DeckItem) {
-            items.add(item)
-            notifyDataSetChanged()
+        override fun onItemAdded(item: DeckItem, position: Int) {
+            notifyItemInserted(position)
         }
 
-        override fun onItemRemoved(item: DeckItem) {
-            items.remove(item)
-            notifyDataSetChanged()
+        override fun onItemRemoved(item: DeckItem, position: Int) {
+            notifyItemRemoved(position)
         }
 
         override fun onDataReceived(items: MutableList<DeckItem>) {
@@ -42,8 +40,9 @@ class ActiveDeckAdapter(
         }
 
         updateMode(holder.itemView)
+        val item = items[position]
         holder.view.setCloseClickListener(View.OnClickListener {
-            deckObservable.onItemRemoved(items[position])
+            deckObservable.onItemRemoved(item, items.indexOf(item))
         })
         holder.view.setOnLongClickListener {
             enterEditMode()

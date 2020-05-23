@@ -8,16 +8,12 @@ class DeckObservable {
         observers.add(observer)
     }
 
-    fun removeObserver(observer: DeckObserver) {
-        observers.remove(observer)
+    fun onItemAdded(item: DeckItem, position: Int) {
+        observers.forEach { it.onItemAdded(item, position) }
     }
 
-    fun onItemAdded(item: DeckItem) {
-        observers.forEach { it.onItemAdded(item) }
-    }
-
-    fun onItemRemoved(item: DeckItem) {
-        observers.forEach { it.onItemRemoved(item) }
+    fun onItemRemoved(item: DeckItem, position: Int) {
+        observers.forEach { it.onItemRemoved(item, position) }
     }
 
     fun onItemsReceived(items: MutableList<DeckItem>) {

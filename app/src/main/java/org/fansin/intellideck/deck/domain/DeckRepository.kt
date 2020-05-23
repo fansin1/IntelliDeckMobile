@@ -8,12 +8,12 @@ class DeckRepository(
 ) {
 
     private val deckObserver = object : DeckObserver {
-        override fun onItemAdded(item: DeckItem) {
+        override fun onItemAdded(item: DeckItem, position: Int) {
             inactiveItems.remove(item)
             activeItems.add(item)
         }
 
-        override fun onItemRemoved(item: DeckItem) {
+        override fun onItemRemoved(item: DeckItem, position: Int) {
             activeItems.remove(item)
             inactiveItems.add(item)
         }

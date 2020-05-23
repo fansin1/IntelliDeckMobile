@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
 import org.fansin.intellideck.R
 
 class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout(context, attrs) {
@@ -37,8 +38,8 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
         cardImage.clearColorFilter()
     }
 
-    fun setDrawable(drawable: Drawable) {
-        cardImage.setImageDrawable(drawable)
+    fun setDrawable(drawable: Drawable?) {
+        Glide.with(this).load(drawable).into(cardImage)
     }
 
     fun setCardClickListener(clickListener: OnClickListener) {

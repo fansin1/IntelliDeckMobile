@@ -14,7 +14,6 @@ open class DeckAdapter(
         return DeckViewHolder(deckView)
     }
 
-
     override fun getItemCount(): Int {
         return items.size
     }

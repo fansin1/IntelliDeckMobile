@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_add -> {
-                deckObservable.onItemAdded(deckRepository.inactiveItems.first())
+                deckObservable.onItemAdded(
+                    deckRepository.inactiveItems.first(),
+                    deckRepository.activeItems.size)
                 true
             }
             else -> super.onOptionsItemSelected(item)
