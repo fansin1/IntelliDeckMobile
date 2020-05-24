@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import kotlinx.android.synthetic.main.fragment_active_cards.view.*
+import kotlinx.android.synthetic.main.fragment_active_cards.*
 import org.fansin.intellideck.App
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.R
-import org.fansin.intellideck.deck.ui.GridSpacingItemDecoration
 import javax.inject.Inject
 
 class ActiveCardsFragment : Fragment() {
@@ -35,20 +34,15 @@ class ActiveCardsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         App.applicationComponent.inject(this)
+        configureDeck()
+    }
 
-        view.activeCardsRecyclerView.layoutManager = GridLayoutManager(context, appConfig.spanCount)
-        view.activeCardsRecyclerView.recycledViewPool.setMaxRecycledViews(0, Int.MAX_VALUE)
-        val itemDecoration =
-            GridSpacingItemDecoration(
-                appConfig.spanCount,
-                appConfig.spacing,
-                appConfig.includeEdge,
-                appConfig.headerNum
-            )
-        view.activeCardsRecyclerView.addItemDecoration(itemDecoration)
-        view.activeCardsRecyclerView.adapter = activeDeckAdapter
-        itemTouchHelper.attachToRecyclerView(view.activeCardsRecyclerView)
-        view.emptySpace.setOnClickListener {
+    private fun configureDeck() {
+        activeCardsRecyclerView.layoutManager = GridLayoutManager(context, appConfig.spanCount)
+        activeCardsRecyclerView.recycledViewPool.setMaxRecycledViews(0, Int.MAX_VALUE)
+        activeCardsRecyclerView.adapter = activeDeckAdapter
+        itemTouchHelper.attachToRecyclerView(activeCardsRecyclerView)
+        emptySpace.setOnClickListener {
             activeDeckAdapter.exitEditMode()
         }
     }

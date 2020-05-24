@@ -11,7 +11,7 @@ class ApplicationModule(@get:Provides val applicationContext: Context) {
 
     @Provides
     @Singleton
-    fun provideAppConfig(context: Context): AppConfig {
-        return AppConfig(context)
+    fun provideAppConfig(): AppConfig {
+        return AppConfig()
     }
 }
