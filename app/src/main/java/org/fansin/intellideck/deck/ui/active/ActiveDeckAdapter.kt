@@ -24,6 +24,10 @@ class ActiveDeckAdapter(
             notifyItemRemoved(position)
         }
 
+        override fun onItemMoved(from: Int, to: Int) {
+            notifyItemMoved(from, to)
+        }
+
         override fun onDataReceived(items: MutableList<DeckItem>) {
             updateItems(items)
         }

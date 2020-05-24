@@ -18,6 +18,17 @@ class DeckRepository(
             inactiveItems.add(item)
         }
 
+        override fun onItemMoved(from: Int, to: Int) {
+            val newPos = if (to > from) {
+                to - 1
+            } else {
+                to
+            }
+            val item = activeItems[from]
+            activeItems.removeAt(from)
+            activeItems.add(newPos, item)
+        }
+
         override fun onDataReceived(items: MutableList<DeckItem>) {
             // do nothing
         }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_active_cards.view.*
 import org.fansin.intellideck.App
 import org.fansin.intellideck.AppConfig
@@ -20,6 +21,9 @@ class ActiveCardsFragment : Fragment() {
 
     @Inject
     lateinit var appConfig: AppConfig
+
+    @Inject
+    lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +47,7 @@ class ActiveCardsFragment : Fragment() {
             )
         view.activeCardsRecyclerView.addItemDecoration(itemDecoration)
         view.activeCardsRecyclerView.adapter = activeDeckAdapter
+        itemTouchHelper.attachToRecyclerView(view.activeCardsRecyclerView)
         view.emptySpace.setOnClickListener {
             activeDeckAdapter.exitEditMode()
         }

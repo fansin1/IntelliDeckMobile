@@ -16,6 +16,10 @@ class DeckObservable {
         observers.forEach { it.onItemRemoved(item, position) }
     }
 
+    fun onItemMoved(from: Int, to: Int) {
+        observers.forEach { it.onItemMoved(from, to) }
+    }
+
     fun onItemsReceived(items: MutableList<DeckItem>) {
         observers.forEach { it.onDataReceived(items) }
     }
