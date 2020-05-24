@@ -1,11 +1,14 @@
 package org.fansin.intellideck.deck.ui
 
-import android.util.Log
+import android.os.Vibrator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.deck.domain.DeckObservable
 
 class DeckItemTouchHelperCallback(
+    private val appConfig: AppConfig,
+    private val vibrator: Vibrator,
     private val deckObservable: DeckObservable
 ) : ItemTouchHelper.Callback() {
 
@@ -50,8 +53,8 @@ class DeckItemTouchHelperCallback(
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            Log.d("DRAG", "Start")
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            vibrator.vibrate(appConfig.onClickVibrationDuration)
         }
     }
 }

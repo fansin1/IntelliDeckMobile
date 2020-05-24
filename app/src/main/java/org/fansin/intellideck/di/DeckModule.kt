@@ -1,9 +1,11 @@
 package org.fansin.intellideck.di
 
 import android.content.Context
+import android.os.Vibrator
 import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.Module
 import dagger.Provides
+import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
 import org.fansin.intellideck.deck.ui.DeckItemTouchHelperCallback
@@ -49,9 +51,11 @@ class DeckModule {
     @Singleton
     @Provides
     fun provideDeckItemTouchHelperCallback(
+        appConfig: AppConfig,
+        vibrator: Vibrator,
         deckObservable: DeckObservable
     ): DeckItemTouchHelperCallback {
-        return DeckItemTouchHelperCallback(deckObservable)
+        return DeckItemTouchHelperCallback(appConfig, vibrator, deckObservable)
     }
 
     @Singleton
