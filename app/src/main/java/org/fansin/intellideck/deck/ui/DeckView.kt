@@ -2,20 +2,22 @@ package org.fansin.intellideck.deck.ui
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import org.fansin.intellideck.R
+import org.fansin.intellideck.deck.domain.DeckItem
 
 class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout(context, attrs) {
 
     private val cardImage: ImageView
     private val cardView: CardView
+    private val cardTextView: TextView
     private val closeButton: ImageButton
 
     init {
@@ -23,6 +25,7 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
         cardView = findViewById(R.id.cardView)
         closeButton = findViewById(R.id.closeButton)
         cardImage = cardView.findViewById(R.id.cardImage)
+        cardTextView = findViewById(R.id.cardTextView)
     }
 
     fun enterEditMode() {
@@ -38,15 +41,14 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
         cardImage.clearColorFilter()
     }
 
-    fun setDrawable(drawable: Drawable?) {
-        Glide.with(this).load(drawable).into(cardImage)
+    fun setData(deckItem: DeckItem) {
+        Glide.with(this).load(deckItem.drawable).into(cardImage)
+        cardTextView.text = deckItem.name
     }
 
-    fun setCardClickListener(clickListener: OnClickListener) {
-        cardView.setOnClickListener(clickListener)
-    }
-
-    fun setCloseClickListener(clickListener: OnClickListener) {
-        closeButton.setOnClickListener(clickListener)
+    fun setDeckClicksListener(deckClicksListener: OnDeckClicksListener) {
+        cardView.setOnClickListener { deckClicksListener.onCardClickListener() }
+        cardView.setOnLongClickListener { deckClicksListener.onCardLongClickListener() }
+        closeButton.setOnClickListener { deckClicksListener.onCloseClickListener() }
     }
 }

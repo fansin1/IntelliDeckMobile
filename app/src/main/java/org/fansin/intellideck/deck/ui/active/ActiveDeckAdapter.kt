@@ -1,6 +1,5 @@
 package org.fansin.intellideck.deck.ui.active
 
-import android.view.View
 import org.fansin.intellideck.deck.domain.DeckItem
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckObserver
@@ -11,55 +10,47 @@ import org.fansin.intellideck.deck.ui.DeckViewHolder
 class ActiveDeckAdapter(
     private val deckObservable: DeckObservable,
     items: MutableList<DeckItem>
-) : DeckAdapter(items) {
+) : DeckAdapter(items), DeckObserver {
 
     private var isInEditMode = false
 
-    private val deckObserver = object : DeckObserver {
-        override fun onItemAdded(item: DeckItem, position: Int) {
-            notifyItemInserted(position)
-        }
-
-        override fun onItemRemoved(item: DeckItem, position: Int) {
-            notifyItemRemoved(position)
-        }
-
-        override fun onItemMoved(from: Int, to: Int) {
-            notifyItemMoved(from, to)
-        }
-
-        override fun onDataReceived(items: MutableList<DeckItem>) {
-            updateItems(items)
-        }
-    }
-
     init {
-        deckObservable.addObserver(deckObserver)
+        deckObservable.addObserver(this)
     }
 
     override fun onBindViewHolder(holder: DeckViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        if (holder.itemView !is DeckView) {
-            return
-        }
-
-        updateMode(holder.itemView)
+        updateMode(holder.view)
         val item = items[position]
-        holder.view.setCloseClickListener(View.OnClickListener {
-            deckObservable.onItemRemoved(item, items.indexOf(item))
-        })
-        holder.view.setOnLongClickListener {
-            enterEditMode()
-            true
-        }
+        holder.view.setDeckClicksListener(
+            ActiveOnDeckClicksListener(
+                deckObservable, item
+            ) { items.indexOf(item) }
+        )
     }
 
-    fun enterEditMode() {
+    override fun onItemAdded(item: DeckItem, position: Int) {
+        notifyItemInserted(position)
+    }
+
+    override fun onItemRemoved(item: DeckItem, position: Int) {
+        notifyItemRemoved(position)
+    }
+
+    override fun onItemMoved(from: Int, to: Int) {
+        notifyItemMoved(from, to)
+    }
+
+    override fun onDataReceived(items: MutableList<DeckItem>) {
+        updateItems(items)
+    }
+
+    override fun onEnterEditMode() {
         isInEditMode = true
         notifyDataSetChanged()
     }
 
-    fun exitEditMode() {
+    override fun onExitEditMode() {
         isInEditMode = false
         notifyDataSetChanged()
     }

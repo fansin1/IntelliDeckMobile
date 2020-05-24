@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_active_cards.*
 import org.fansin.intellideck.App
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.R
+import org.fansin.intellideck.deck.domain.DeckObservable
 import javax.inject.Inject
 
 class ActiveCardsFragment : Fragment() {
@@ -23,6 +24,9 @@ class ActiveCardsFragment : Fragment() {
 
     @Inject
     lateinit var itemTouchHelper: ItemTouchHelper
+
+    @Inject
+    lateinit var deckObservable: DeckObservable
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +47,7 @@ class ActiveCardsFragment : Fragment() {
         activeCardsRecyclerView.adapter = activeDeckAdapter
         itemTouchHelper.attachToRecyclerView(activeCardsRecyclerView)
         emptySpace.setOnClickListener {
-            activeDeckAdapter.exitEditMode()
+            deckObservable.onExitEditMode()
         }
     }
 }

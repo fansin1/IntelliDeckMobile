@@ -23,4 +23,12 @@ class DeckObservable {
     fun onItemsReceived(items: MutableList<DeckItem>) {
         observers.forEach { it.onDataReceived(items) }
     }
+
+    fun onEnterEditMode() {
+        observers.forEach { it.onEnterEditMode() }
+    }
+
+    fun onExitEditMode() {
+        observers.forEach { it.onExitEditMode() }
+    }
 }

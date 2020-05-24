@@ -32,7 +32,9 @@ class DeckModule {
         deckRepository: DeckRepository,
         deckObservable: DeckObservable
     ): ActiveDeckAdapter {
-        return ActiveDeckAdapter(deckObservable, deckRepository.activeItems)
+        return ActiveDeckAdapter(
+            deckObservable,
+            deckRepository.activeItems)
     }
 
     @Singleton

@@ -9,6 +9,6 @@ class DeckViewHolder(view: DeckView) : RecyclerView.ViewHolder(view) {
         get() = itemView as DeckView
 
     fun bind(deckItem: DeckItem) {
-        view.setDrawable(deckItem.drawable)
+        view.setData(deckItem)
     }
 }

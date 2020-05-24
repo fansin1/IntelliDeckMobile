@@ -1,5 +1,6 @@
 package org.fansin.intellideck.deck.ui
 
+import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.fansin.intellideck.deck.domain.DeckObservable
@@ -45,5 +46,12 @@ class DeckItemTouchHelperCallback(
         // Notify the adapter of the move
         deckObservable.onItemMoved(source.adapterPosition, target.adapterPosition)
         return true
+    }
+
+    override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+        super.onSelectedChanged(viewHolder, actionState)
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+            Log.d("DRAG", "Start")
+        }
     }
 }

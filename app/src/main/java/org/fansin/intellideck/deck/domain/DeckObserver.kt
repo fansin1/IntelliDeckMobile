@@ -1,8 +1,28 @@
 package org.fansin.intellideck.deck.domain
 
 interface DeckObserver {
-    fun onItemAdded(item: DeckItem, position: Int)
-    fun onItemRemoved(item: DeckItem, position: Int)
-    fun onItemMoved(from: Int, to: Int)
-    fun onDataReceived(items: MutableList<DeckItem>)
+    @JvmDefault
+    fun onItemAdded(item: DeckItem, position: Int) {
+        // to override
+    }
+    @JvmDefault
+    fun onItemRemoved(item: DeckItem, position: Int) {
+        // to override
+    }
+    @JvmDefault
+    fun onItemMoved(from: Int, to: Int) {
+        // to override
+    }
+    @JvmDefault
+    fun onDataReceived(items: MutableList<DeckItem>) {
+        // to override
+    }
+    @JvmDefault
+    fun onEnterEditMode() {
+        // to override
+    }
+    @JvmDefault
+    fun onExitEditMode() {
+        // to override
+    }
 }
