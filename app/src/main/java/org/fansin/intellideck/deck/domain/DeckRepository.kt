@@ -19,14 +19,9 @@ class DeckRepository(
         }
 
         override fun onItemMoved(from: Int, to: Int) {
-            val newPos = if (to > from) {
-                to - 1
-            } else {
-                to
-            }
             val item = activeItems[from]
             activeItems.removeAt(from)
-            activeItems.add(newPos, item)
+            activeItems.add(to, item)
         }
 
         override fun onDataReceived(items: MutableList<DeckItem>) {
@@ -36,57 +31,57 @@ class DeckRepository(
 
     val activeItems = mutableListOf(
         DeckItem(
-            "Test",
+            "Test1",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test2",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test3",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test4",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test5",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test6",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test7",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test8",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         )
     )
     val inactiveItems = mutableListOf<DeckItem>(
         DeckItem(
-            "Test",
+            "Test9",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test10",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test11",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test12",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         ),
         DeckItem(
-            "Test",
+            "Test13",
             context.getDrawable(android.R.drawable.sym_def_app_icon)!!
         )
     )
