@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ActiveCardsFragment">
+    app:startDestination="@id/CardsFragment">
 
     <fragment
-        android:id="@+id/ActiveCardsFragment"
-        android:name="org.fansin.intellideck.deck.ui.active.ActiveCardsFragment"
-        android:label="@string/active_cards_fragment_label"
-        tools:layout="@layout/fragment_active_cards">
+        android:id="@+id/CardsFragment"
+        android:name="org.fansin.intellideck.deck.ui.CardsFragment"
+        android:label="@string/cards_fragment_label"
+        tools:layout="@layout/fragment_cards">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/InactiveCardsFragment" />
+            android:id="@+id/action_CardsFragment_to_AddCardsFragment"
+            app:destination="@id/AddCardsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/InactiveCardsFragment"
-        android:name="org.fansin.intellideck.deck.ui.inactive.InactiveCardsFragment"
-        android:label="@string/inactive_cards_fragment_label"
-        tools:layout="@layout/fragment_inactive_cards">
+        android:id="@+id/AddCardsFragment"
+        android:name="org.fansin.intellideck.deck.ui.AddCardsFragment"
+        android:label="@string/add_cards_fragment_label"
+        tools:layout="@layout/fragment_add_cards">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/ActiveCardsFragment" />
+            android:id="@+id/action_AddCardsFragment_to_CardsFragment"
+            app:destination="@id/CardsFragment" />
     </fragment>
 </navigation>

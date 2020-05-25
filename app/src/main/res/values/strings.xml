@@ -2,6 +2,6 @@
     <string name="app_name">IntelliDeck</string>
     <string name="action_add">Add</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="active_cards_fragment_label">First Fragment</string>
-    <string name="inactive_cards_fragment_label">Second Fragment</string>
+    <string name="cards_fragment_label">First Fragment</string>
+    <string name="add_cards_fragment_label">Second Fragment</string>
 </resources>

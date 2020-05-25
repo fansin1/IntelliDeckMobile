@@ -1,4 +1,4 @@
-package org.fansin.intellideck.deck.ui.active
+package org.fansin.intellideck.deck.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import kotlinx.android.synthetic.main.fragment_active_cards.*
+import kotlinx.android.synthetic.main.fragment_cards.*
 import org.fansin.intellideck.App
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.R
 import org.fansin.intellideck.deck.domain.DeckObservable
 import javax.inject.Inject
 
-class ActiveCardsFragment : Fragment() {
+class CardsFragment : Fragment() {
 
     @Inject
-    lateinit var activeDeckAdapter: ActiveDeckAdapter
+    lateinit var deckAdapter: DeckAdapter
 
     @Inject
     lateinit var appConfig: AppConfig
@@ -32,7 +32,7 @@ class ActiveCardsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_active_cards, container, false)
+        return inflater.inflate(R.layout.fragment_cards, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ class ActiveCardsFragment : Fragment() {
     private fun configureDeck() {
         activeCardsRecyclerView.layoutManager = GridLayoutManager(context, appConfig.spanCount)
         activeCardsRecyclerView.recycledViewPool.setMaxRecycledViews(0, Int.MAX_VALUE)
-        activeCardsRecyclerView.adapter = activeDeckAdapter
+        activeCardsRecyclerView.adapter = deckAdapter
         itemTouchHelper.attachToRecyclerView(activeCardsRecyclerView)
         emptySpace.setOnClickListener {
             deckObservable.onExitEditMode()

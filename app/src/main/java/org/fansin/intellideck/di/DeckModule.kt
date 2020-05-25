@@ -8,9 +8,8 @@ import dagger.Provides
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
+import org.fansin.intellideck.deck.ui.DeckAdapter
 import org.fansin.intellideck.deck.ui.DeckItemTouchHelperCallback
-import org.fansin.intellideck.deck.ui.active.ActiveDeckAdapter
-import org.fansin.intellideck.deck.ui.inactive.InactiveDeckAdapter
 import javax.inject.Singleton
 
 @Module
@@ -33,19 +32,11 @@ class DeckModule {
     fun provideActiveDeckAdapter(
         deckRepository: DeckRepository,
         deckObservable: DeckObservable
-    ): ActiveDeckAdapter {
-        return ActiveDeckAdapter(
+    ): DeckAdapter {
+        return DeckAdapter(
             deckObservable,
-            deckRepository.activeItems)
-    }
-
-    @Singleton
-    @Provides
-    fun provideInactiveDeckAdapter(
-        deckRepository: DeckRepository,
-        deckObservable: DeckObservable
-    ): InactiveDeckAdapter {
-        return InactiveDeckAdapter(deckObservable, deckRepository.inactiveItems)
+            deckRepository.activeItems
+        )
     }
 
     @Singleton

@@ -1,4 +1,4 @@
-package org.fansin.intellideck.deck.ui.inactive
+package org.fansin.intellideck.deck.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.fansin.intellideck.R
 
-class InactiveCardsFragment : Fragment() {
+class AddCardsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inactive_cards, container, false)
+        return inflater.inflate(R.layout.fragment_add_cards, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

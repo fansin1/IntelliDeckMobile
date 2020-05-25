@@ -1,11 +1,10 @@
-package org.fansin.intellideck.deck.ui.active
+package org.fansin.intellideck.deck.ui
 
 import android.util.Log
 import org.fansin.intellideck.deck.domain.DeckItem
 import org.fansin.intellideck.deck.domain.DeckObservable
-import org.fansin.intellideck.deck.ui.OnDeckClicksListener
 
-class ActiveOnDeckClicksListener(
+class OnDeckClicksListenerImpl(
     private val deckObservable: DeckObservable,
     private val deckItem: DeckItem,
     private val deckItemPosition: () -> Int

@@ -2,8 +2,8 @@ package org.fansin.intellideck.di
 
 import dagger.Component
 import org.fansin.intellideck.MainActivity
-import org.fansin.intellideck.deck.ui.active.ActiveCardsFragment
-import org.fansin.intellideck.deck.ui.inactive.InactiveCardsFragment
+import org.fansin.intellideck.deck.ui.AddCardsFragment
+import org.fansin.intellideck.deck.ui.CardsFragment
 import javax.inject.Singleton
 
 @Component(
@@ -17,7 +17,7 @@ interface ApplicationComponent {
 
     fun inject(mainActivity: MainActivity)
 
-    fun inject(inactiveCardsFragment: InactiveCardsFragment)
+    fun inject(addCardsFragment: AddCardsFragment)
 
-    fun inject(activeCardsFragment: ActiveCardsFragment)
+    fun inject(cardsFragment: CardsFragment)
 }
