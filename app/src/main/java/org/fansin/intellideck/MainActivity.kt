@@ -7,8 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.activity_main.*
+import org.fansin.intellideck.deck.ui.AddCardsAdapter
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var addCardsAdapter: AddCardsAdapter
 
     private val navController: NavController
         get() = findNavController(R.id.nav_host_fragment)
@@ -29,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_add -> {
                 navController.navigate(R.id.AddCardsFragment)
+                addCardsAdapter.notifyDataSetChanged()
                 true
             }
             else -> super.onOptionsItemSelected(item)

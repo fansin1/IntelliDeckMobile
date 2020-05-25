@@ -8,6 +8,7 @@ import dagger.Provides
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
+import org.fansin.intellideck.deck.ui.AddCardsAdapter
 import org.fansin.intellideck.deck.ui.DeckAdapter
 import org.fansin.intellideck.deck.ui.DeckItemTouchHelperCallback
 import javax.inject.Singleton
@@ -55,5 +56,14 @@ class DeckModule {
         deckItemTouchHelperCallback: DeckItemTouchHelperCallback
     ): ItemTouchHelper {
         return ItemTouchHelper(deckItemTouchHelperCallback)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAddCardsAdapter(
+        deckObservable: DeckObservable,
+        repository: DeckRepository
+    ): AddCardsAdapter {
+        return AddCardsAdapter(deckObservable, repository)
     }
 }
