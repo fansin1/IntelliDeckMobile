@@ -29,6 +29,7 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
     }
 
     fun enterEditMode() {
+        cardView.isEnabled = false
         closeButton.visibility = View.VISIBLE
         cardImage.setColorFilter(
             Color.rgb(123, 123, 123),
@@ -37,6 +38,7 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
     }
 
     fun exitEditMode() {
+        cardView.isEnabled = true
         closeButton.visibility = View.GONE
         cardImage.clearColorFilter()
     }

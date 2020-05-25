@@ -8,7 +8,7 @@ import org.fansin.intellideck.deck.domain.DeckObserver
 
 class DeckAdapter(
     private val deckObservable: DeckObservable,
-    private val items: MutableList<DeckItem>
+    private val items: List<DeckItem>
 ) : RecyclerView.Adapter<DeckViewHolder>(), DeckObserver {
 
     private var isInEditMode = false
@@ -23,19 +23,14 @@ class DeckAdapter(
         return DeckViewHolder(deckView)
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
+    override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: DeckViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
         updateMode(holder.view)
         holder.view.setDeckClicksListener(
-            OnDeckClicksListenerImpl(
-                deckObservable, item
-            ) { items.indexOf(item) }
+            OnDeckClicksListenerImpl(deckObservable, item) { items.indexOf(item) }
         )
     }
 
@@ -52,7 +47,7 @@ class DeckAdapter(
     }
 
     override fun onDataReceived(items: MutableList<DeckItem>) {
-        updateItems(items)
+        notifyDataSetChanged()
     }
 
     override fun onEnterEditMode() {
@@ -62,12 +57,6 @@ class DeckAdapter(
 
     override fun onExitEditMode() {
         isInEditMode = false
-        notifyDataSetChanged()
-    }
-
-    private fun updateItems(newItems: MutableList<DeckItem>) {
-        items.clear()
-        items.addAll(newItems)
         notifyDataSetChanged()
     }
 
