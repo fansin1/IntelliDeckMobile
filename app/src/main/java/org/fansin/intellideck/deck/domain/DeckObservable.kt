@@ -20,8 +20,8 @@ class DeckObservable {
         observers.forEach { it.onItemMoved(from, to) }
     }
 
-    fun onItemsReceived(items: MutableList<DeckItem>) {
-        observers.forEach { it.onDataReceived(items) }
+    fun onItemsReceived() {
+        observers.forEach { it.onDataReceived() }
     }
 
     fun onEnterEditMode() {

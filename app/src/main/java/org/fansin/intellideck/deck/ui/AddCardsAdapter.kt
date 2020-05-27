@@ -16,6 +16,7 @@ class AddCardsAdapter(
 ) : RecyclerView.Adapter<AddCardViewHolder>(), DeckObserver {
 
     private var realItems = filterItems(false)
+    private var debugMode = false
 
     init {
         deckObservable.addObserver(this)
@@ -49,14 +50,20 @@ class AddCardsAdapter(
         notifyItemInserted(realItems.size - 1)
     }
 
+    override fun onDataReceived() {
+        notifyDataSetChanged()
+        realItems = filterItems(debugMode)
+    }
+
     fun setMode(isDebug: Boolean) {
+        debugMode = isDebug
         realItems = filterItems(isDebug)
         notifyDataSetChanged()
     }
 
     private fun filterItems(isDebug: Boolean): MutableList<DeckItem> {
-        return repository.inactiveItems.filter {
-                deckItem -> deckItem.isDebug == isDebug
+        return repository.inactiveItems.filter { deckItem ->
+            deckItem.command.isDebug == isDebug
         }.toMutableList()
     }
 }

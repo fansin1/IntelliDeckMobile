@@ -45,7 +45,7 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
 
     fun setData(deckItem: DeckItem) {
         Glide.with(this).load(deckItem.drawable).into(cardImage)
-        cardTextView.text = deckItem.name
+        cardTextView.text = deckItem.command.name
     }
 
     fun setDeckClicksListener(deckClicksListener: OnDeckClicksListener) {

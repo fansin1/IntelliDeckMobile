@@ -29,13 +29,14 @@ class AddCardsFragment : Fragment() {
         App.applicationComponent.inject(this)
         addCardsRecyclerView.layoutManager = LinearLayoutManager(context)
         addCardsRecyclerView.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        )
         addCardsRecyclerView.adapter = addCardsAdapter
         materialButtonToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) {
                 return@addOnButtonCheckedListener
             }
-            when(checkedId) {
+            when (checkedId) {
                 R.id.runButton -> {
                     addCardsAdapter.setMode(false)
                 }

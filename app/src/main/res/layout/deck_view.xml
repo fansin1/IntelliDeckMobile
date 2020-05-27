@@ -7,12 +7,12 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/rv_ripple"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/rv_ripple"
         app:cardCornerRadius="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -8,9 +8,8 @@ import dagger.Provides
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
-import org.fansin.intellideck.deck.ui.AddCardsAdapter
-import org.fansin.intellideck.deck.ui.DeckAdapter
-import org.fansin.intellideck.deck.ui.DeckItemTouchHelperCallback
+import org.fansin.intellideck.deck.network.DeckClient
+import org.fansin.intellideck.deck.ui.*
 import javax.inject.Singleton
 
 @Module
@@ -31,11 +30,13 @@ class DeckModule {
     @Singleton
     @Provides
     fun provideActiveDeckAdapter(
+        onDeckClicksListenerFactory: OnDeckClicksListenerFactory,
         deckRepository: DeckRepository,
         deckObservable: DeckObservable
     ): DeckAdapter {
         return DeckAdapter(
             deckObservable,
+            onDeckClicksListenerFactory,
             deckRepository.activeItems
         )
     }
@@ -65,5 +66,26 @@ class DeckModule {
         repository: DeckRepository
     ): AddCardsAdapter {
         return AddCardsAdapter(deckObservable, repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDeckClient(deckRepository: DeckRepository): DeckClient {
+        return DeckClient(deckRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideOnDeckClicksListenerFactory(
+        deckClient: DeckClient,
+        deckObservable: DeckObservable
+    ): OnDeckClicksListenerFactory {
+        return OnDeckClicksListenerFactory(deckClient, deckObservable)
+    }
+
+    @Singleton
+    @Provides
+    fun provideConnectionDialogFactory(): ConnectionDialogFactory {
+        return ConnectionDialogFactory()
     }
 }

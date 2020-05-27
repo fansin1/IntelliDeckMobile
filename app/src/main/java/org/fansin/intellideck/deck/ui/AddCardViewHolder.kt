@@ -11,6 +11,6 @@ class AddCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(deckItem: DeckItem) {
         this.deckItem = deckItem
-        itemView.title.text = deckItem.name
+        itemView.title.text = deckItem.command.name
     }
 }

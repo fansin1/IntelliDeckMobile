@@ -1,10 +1,11 @@
 package org.fansin.intellideck.deck.ui
 
-import android.util.Log
 import org.fansin.intellideck.deck.domain.DeckItem
 import org.fansin.intellideck.deck.domain.DeckObservable
+import org.fansin.intellideck.deck.network.DeckClient
 
 class OnDeckClicksListenerImpl(
+    private val deckClient: DeckClient,
     private val deckObservable: DeckObservable,
     private val deckItem: DeckItem,
     private val deckItemPosition: () -> Int
@@ -15,7 +16,7 @@ class OnDeckClicksListenerImpl(
     }
 
     override fun onCardClickListener() {
-        Log.d("Test", deckItem.name)
+        deckClient.sendCommand(deckItem.command)
     }
 
     override fun onCardLongClickListener(): Boolean {

@@ -7,7 +7,8 @@ import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckObserver
 
 class DeckAdapter(
-    private val deckObservable: DeckObservable,
+    deckObservable: DeckObservable,
+    private val onDeckClicksListenerFactory: OnDeckClicksListenerFactory,
     private val items: List<DeckItem>
 ) : RecyclerView.Adapter<DeckViewHolder>(), DeckObserver {
 
@@ -29,9 +30,7 @@ class DeckAdapter(
         val item = items[position]
         holder.bind(item)
         updateMode(holder.view)
-        holder.view.setDeckClicksListener(
-            OnDeckClicksListenerImpl(deckObservable, item) { items.indexOf(item) }
-        )
+        holder.view.setDeckClicksListener(onDeckClicksListenerFactory.createListener(items, item))
     }
 
     override fun onItemAdded(item: DeckItem, position: Int) {
@@ -46,7 +45,7 @@ class DeckAdapter(
         notifyItemMoved(from, to)
     }
 
-    override fun onDataReceived(items: MutableList<DeckItem>) {
+    override fun onDataReceived() {
         notifyDataSetChanged()
     }
 
