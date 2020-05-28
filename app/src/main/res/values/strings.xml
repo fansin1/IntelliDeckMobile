@@ -3,6 +3,6 @@
     <string name="action_add">Add</string>
     <string name="action_connect">Connect</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="cards_fragment_label">First Fragment</string>
-    <string name="add_cards_fragment_label">Second Fragment</string>
+    <string name="cards_fragment_label">IntelliDeck</string>
+    <string name="add_cards_fragment_label">Add cards</string>
 </resources>

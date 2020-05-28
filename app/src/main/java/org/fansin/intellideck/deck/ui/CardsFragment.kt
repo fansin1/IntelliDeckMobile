@@ -1,9 +1,7 @@
 package org.fansin.intellideck.deck.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -32,6 +30,7 @@ class CardsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_cards, container, false)
     }
 
@@ -39,6 +38,11 @@ class CardsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         App.applicationComponent.inject(this)
         configureDeck()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun configureDeck() {
