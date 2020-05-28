@@ -12,12 +12,14 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketException
+import java.net.SocketTimeoutException
 
 class DeckClient(
     private val deckRepository: DeckRepository
 ) {
 
-    private val socket = Socket()
+    private var socket = Socket()
+    private var triedToReconnect = false
     private lateinit var inputStream: DataInputStream
     private lateinit var outputStream: DataOutputStream
 
@@ -35,10 +37,23 @@ class DeckClient(
                         deckRepository.parseCommands(commands)
                     }
                 }
-            } catch (e: IOException) {
-                e.printStackTrace()
-                //TODO: notify about problems with connection
+            } catch (timeOutException: SocketTimeoutException) {
+                socket = Socket()
+                reconnectOnce(socketParams)
+            } catch (socketException: SocketException) {
+                socket = Socket()
+                reconnectOnce(socketParams)
+            } catch (ioException: IOException) {
+                ioException.printStackTrace()
             }
+        }
+    }
+
+    private fun reconnectOnce(socketParams: SocketParams) {
+        if (!triedToReconnect) {
+            triedToReconnect = true
+            connect(socketParams)
+            triedToReconnect = false
         }
     }
 
