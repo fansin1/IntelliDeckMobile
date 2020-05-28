@@ -32,9 +32,12 @@ class DeckRepository(
         deckObservable.addObserver(deckObserver)
     }
 
-    fun parseCommands(items: String) {
+    fun parseCommands(commands: String) {
         val receivedItems = mutableSetOf<DeckItem>()
-        for (item in items.split(" ").dropLastWhile { it.isBlank() }) {
+        val items = commands.split("\n").dropLastWhile { it.isBlank() }
+        val count = items.first().drop(6).toInt()
+        for (i in 1..count) {
+            val item = items[i]
             val realName = if (item.startsWith("Run-")) {
                 item.substring(4)
             } else {

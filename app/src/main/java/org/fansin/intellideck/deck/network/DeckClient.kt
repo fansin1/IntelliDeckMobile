@@ -31,7 +31,9 @@ class DeckClient(
                 outputStream = DataOutputStream(socket.getOutputStream())
                 val commands = inputStream.readUTF()
                 withContext(Dispatchers.Main) {
-                    deckRepository.parseCommands(commands)
+                    if (commands.startsWith("Tasks")) {
+                        deckRepository.parseCommands(commands)
+                    }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
