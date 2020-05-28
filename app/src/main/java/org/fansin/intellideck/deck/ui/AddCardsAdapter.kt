@@ -4,6 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.fansin.intellideck.R
 import org.fansin.intellideck.deck.domain.DeckItem
 import org.fansin.intellideck.deck.domain.DeckObservable
@@ -36,6 +40,11 @@ class AddCardsAdapter(
         holder.bind(item)
         holder.itemView.setOnClickListener {
             deckObservable.onItemAdded(item, repository.activeItems.size)
+            GlobalScope.launch(Dispatchers.Main) {
+                holder.itemView.isEnabled = false
+                delay(1000)
+                holder.itemView.isEnabled = true
+            }
         }
     }
 
