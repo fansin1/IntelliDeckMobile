@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.fansin.intellideck.deck.network.DeckClient
 import org.fansin.intellideck.deck.network.SocketParams
 import org.fansin.intellideck.deck.ui.AddCardsAdapter
-import org.fansin.intellideck.deck.ui.ConnectionDialogFactory
+import org.fansin.intellideck.deck.ui.ConnectionDialog
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var deckClient: DeckClient
 
     @Inject
-    lateinit var connectionDialogFactory: ConnectionDialogFactory
+    lateinit var connectionDialog: ConnectionDialog
 
     private val navController: NavController
         get() = findNavController(R.id.nav_host_fragment)
@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         toolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
+        (application as App).onMainActivityCreated(this)
         App.applicationComponent.inject(this)
     }
 
@@ -41,10 +42,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_add -> {
                 navController.navigate(R.id.AddCardsFragment)
                 addCardsAdapter.notifyDataSetChanged()
+                addCardsAdapter.setMode(false)
                 true
             }
             R.id.action_connect -> {
-                connectionDialogFactory.showDialog(this) { ip ->
+                connectionDialog.showDialog(this) { ip ->
                     deckClient.connect(SocketParams(ip, 3333, 5000))
                 }
                 true

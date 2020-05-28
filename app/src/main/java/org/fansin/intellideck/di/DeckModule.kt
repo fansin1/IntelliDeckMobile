@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.Module
 import dagger.Provides
 import org.fansin.intellideck.AppConfig
+import org.fansin.intellideck.MainActivity
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
 import org.fansin.intellideck.deck.network.DeckClient
@@ -63,9 +64,10 @@ class DeckModule {
     @Provides
     fun provideAddCardsAdapter(
         deckObservable: DeckObservable,
-        repository: DeckRepository
+        repository: DeckRepository,
+        addingDialog: AddingDialog
     ): AddCardsAdapter {
-        return AddCardsAdapter(deckObservable, repository)
+        return AddCardsAdapter(deckObservable, repository, addingDialog)
     }
 
     @Singleton
@@ -85,7 +87,13 @@ class DeckModule {
 
     @Singleton
     @Provides
-    fun provideConnectionDialogFactory(): ConnectionDialogFactory {
-        return ConnectionDialogFactory()
+    fun provideConnectionDialog(): ConnectionDialog {
+        return ConnectionDialog()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAddingDialog(activity: MainActivity): AddingDialog {
+        return AddingDialog(activity)
     }
 }

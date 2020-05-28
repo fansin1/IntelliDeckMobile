@@ -13,6 +13,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="@drawable/rv_ripple"
+        app:cardBackgroundColor="#EAEAEA"
         app:cardCornerRadius="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,8 +21,7 @@
         <ImageView
             android:id="@+id/cardImage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            android:layout_height="match_parent" />
     </androidx.cardview.widget.CardView>
 
     <ImageButton

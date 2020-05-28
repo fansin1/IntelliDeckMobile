@@ -4,10 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.fansin.intellideck.R
 import org.fansin.intellideck.deck.domain.DeckItem
 import org.fansin.intellideck.deck.domain.DeckObservable
@@ -16,7 +12,8 @@ import org.fansin.intellideck.deck.domain.DeckRepository
 
 class AddCardsAdapter(
     private val deckObservable: DeckObservable,
-    private val repository: DeckRepository
+    private val repository: DeckRepository,
+    private val addingDialog: AddingDialog
 ) : RecyclerView.Adapter<AddCardViewHolder>(), DeckObserver {
 
     private var realItems = filterItems(false)
@@ -39,11 +36,9 @@ class AddCardsAdapter(
         val item = realItems[position]
         holder.bind(item)
         holder.itemView.setOnClickListener {
-            deckObservable.onItemAdded(item, repository.activeItems.size)
-            GlobalScope.launch(Dispatchers.Main) {
-                holder.itemView.isEnabled = false
-                delay(1000)
-                holder.itemView.isEnabled = true
+            addingDialog.showDialog {
+                item.color = it
+                deckObservable.onItemAdded(item, repository.activeItems.size)
             }
         }
     }

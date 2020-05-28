@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.connection_dialog.view.*
 import org.fansin.intellideck.R
 
 
-class ConnectionDialogFactory {
+class ConnectionDialog {
 
     fun showDialog(activity: Activity, connectionClickListener: (String) -> Unit) {
         val builder = AlertDialog.Builder(activity)
