@@ -1,38 +1,54 @@
 package org.fansin.intellideck
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
+import org.fansin.intellideck.deck.network.DeckClient
+import org.fansin.intellideck.deck.network.SocketParams
+import org.fansin.intellideck.deck.ui.AddCardsAdapter
+import org.fansin.intellideck.deck.ui.ConnectionDialogFactory
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var addCardsAdapter: AddCardsAdapter
+
+    @Inject
+    lateinit var deckClient: DeckClient
+
+    @Inject
+    lateinit var connectionDialogFactory: ConnectionDialogFactory
+
+    private val navController: NavController
+        get() = findNavController(R.id.nav_host_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+        toolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
+        App.applicationComponent.inject(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_add -> {
+                navController.navigate(R.id.AddCardsFragment)
+                addCardsAdapter.notifyDataSetChanged()
+                true
+            }
+            R.id.action_connect -> {
+                connectionDialogFactory.showDialog(this) { ip ->
+                    deckClient.connect(SocketParams(ip, 3333, 5000))
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
