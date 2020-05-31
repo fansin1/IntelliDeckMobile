@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.MainActivity
+import org.fansin.intellideck.deck.domain.ConnectionObservable
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
 import org.fansin.intellideck.deck.network.DeckClient
@@ -72,8 +73,11 @@ class DeckModule {
 
     @Singleton
     @Provides
-    fun provideDeckClient(deckRepository: DeckRepository): DeckClient {
-        return DeckClient(deckRepository)
+    fun provideDeckClient(
+        deckRepository: DeckRepository,
+        connectionObservable: ConnectionObservable
+    ): DeckClient {
+        return DeckClient(deckRepository, connectionObservable)
     }
 
     @Singleton

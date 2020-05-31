@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.fansin.intellideck.deck.domain.ConnectionObservable
 import org.fansin.intellideck.deck.domain.DeckCommand
 import org.fansin.intellideck.deck.domain.DeckRepository
 import java.io.DataInputStream
@@ -15,11 +16,25 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 
 class DeckClient(
-    private val deckRepository: DeckRepository
+    private val deckRepository: DeckRepository,
+    private val connectionObservable: ConnectionObservable
 ) {
 
     private var socket = Socket()
     private var triedToReconnect = false
+    private var isConnected = false
+        set(value) {
+            field = value
+            if (value) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    connectionObservable.onConnected()
+                }
+            } else {
+                GlobalScope.launch(Dispatchers.Main) {
+                    connectionObservable.onDisconnected()
+                }
+            }
+        }
     private lateinit var inputStream: DataInputStream
     private lateinit var outputStream: DataOutputStream
 
@@ -29,6 +44,7 @@ class DeckClient(
                 socket.connect(
                     InetSocketAddress(socketParams.host, socketParams.port), socketParams.timeout
                 )
+                isConnected = true
                 inputStream = DataInputStream(socket.getInputStream())
                 outputStream = DataOutputStream(socket.getOutputStream())
                 val commands = inputStream.readUTF()
@@ -37,6 +53,7 @@ class DeckClient(
                         deckRepository.parseCommands(commands)
                     }
                 }
+                startListening()
             } catch (timeOutException: SocketTimeoutException) {
                 socket = Socket()
                 reconnectOnce(socketParams)
@@ -49,16 +66,10 @@ class DeckClient(
         }
     }
 
-    private fun reconnectOnce(socketParams: SocketParams) {
-        if (!triedToReconnect) {
-            triedToReconnect = true
-            connect(socketParams)
-            triedToReconnect = false
-        }
-    }
-
     fun disconnect() {
         socket.close()
+        socket = Socket()
+        connectionObservable.onDisconnected()
     }
 
     fun sendCommand(deckCommand: DeckCommand) {
@@ -72,6 +83,28 @@ class DeckClient(
                 outputStream.writeUTF("click Run-${deckCommand.name}")
             }
             outputStream.flush()
+        }
+    }
+
+    private fun startListening() = GlobalScope.launch(Dispatchers.IO) {
+        while (isConnected) {
+            val str = try {
+                inputStream.readUTF()
+            } catch (ioException: IOException) {
+                isConnected = false
+                break
+            }
+            if (str == "Plugin requested stopping server") {
+                isConnected = false
+            }
+        }
+    }
+
+    private fun reconnectOnce(socketParams: SocketParams) {
+        if (!triedToReconnect) {
+            triedToReconnect = true
+            connect(socketParams)
+            triedToReconnect = false
         }
     }
 }
