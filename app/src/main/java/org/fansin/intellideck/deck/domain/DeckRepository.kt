@@ -1,7 +1,6 @@
 package org.fansin.intellideck.deck.domain
 
 import android.content.Context
-import org.fansin.intellideck.R
 
 class DeckRepository(
     private val context: Context,
@@ -56,7 +55,7 @@ class DeckRepository(
                 }
             }
 
-            receivedItems.add(createDeckItem(realName, isDebug))
+            receivedItems.add(DeckItem(DeckCommand(realName, isDebug)))
         }
 
         val newActiveItems = activeItems.filter { it in receivedItems }
@@ -68,15 +67,5 @@ class DeckRepository(
         inactiveItems.addAll(newInactiveItems)
         inactiveItems.addAll(newItems)
         deckObservable.onItemsReceived()
-    }
-
-    private fun createDeckItem(name: String, isDebug: Boolean): DeckItem {
-        val drawable =
-            if (isDebug) {
-                context.getDrawable(R.drawable.ic_debug)!!
-            } else {
-                context.getDrawable(R.drawable.ic_execute)!!
-            }
-        return DeckItem(DeckCommand(name, isDebug), drawable)
     }
 }

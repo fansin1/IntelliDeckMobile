@@ -50,7 +50,13 @@ class DeckView(context: Context, attrs: AttributeSet? = null) : ConstraintLayout
     }
 
     fun setData(deckItem: DeckItem) {
-        Glide.with(this).load(deckItem.drawable).into(cardImageView)
+        val drawable =
+            if (deckItem.command.isDebug) {
+                context.getDrawable(R.drawable.ic_debug)!!
+            } else {
+                context.getDrawable(R.drawable.ic_execute)!!
+            }
+        Glide.with(this).load(drawable).into(cardImageView)
         tintColor = deckItem.color
         cardImageView.setColorFilter(tintColor)
         cardTextView.text = deckItem.command.name

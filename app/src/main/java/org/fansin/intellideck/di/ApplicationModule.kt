@@ -2,6 +2,7 @@ package org.fansin.intellideck.di
 
 import android.content.Context
 import android.os.Vibrator
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import org.fansin.intellideck.AppConfig
@@ -27,5 +28,11 @@ class ApplicationModule(@get:Provides val applicationContext: Context) {
     @Singleton
     fun provideConnectionObservable(context: Context): ConnectionObservable {
         return ConnectionObservable(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return Gson()
     }
 }

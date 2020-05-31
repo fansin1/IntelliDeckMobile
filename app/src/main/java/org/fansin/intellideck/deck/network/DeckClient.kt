@@ -22,8 +22,11 @@ class DeckClient(
 
     private var socket = Socket()
     private var triedToReconnect = false
-    private var isConnected = false
-        set(value) {
+    private lateinit var inputStream: DataInputStream
+    private lateinit var outputStream: DataOutputStream
+
+    var isConnected = false
+        private set(value) {
             field = value
             if (value) {
                 GlobalScope.launch(Dispatchers.Main) {
@@ -35,8 +38,6 @@ class DeckClient(
                 }
             }
         }
-    private lateinit var inputStream: DataInputStream
-    private lateinit var outputStream: DataOutputStream
 
     fun connect(socketParams: SocketParams) {
         GlobalScope.launch(Dispatchers.IO) {

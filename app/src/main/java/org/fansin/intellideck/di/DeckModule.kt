@@ -3,10 +3,12 @@ package org.fansin.intellideck.di
 import android.content.Context
 import android.os.Vibrator
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import org.fansin.intellideck.AppConfig
 import org.fansin.intellideck.MainActivity
+import org.fansin.intellideck.Persistence
 import org.fansin.intellideck.deck.domain.ConnectionObservable
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
@@ -99,5 +101,15 @@ class DeckModule {
     @Provides
     fun provideAddingDialog(activity: MainActivity): AddingDialog {
         return AddingDialog(activity)
+    }
+
+    @Provides
+    @Singleton
+    fun providePersistence(
+        gson: Gson,
+        context: Context,
+        deckRepository: DeckRepository
+    ): Persistence {
+        return Persistence(context, deckRepository, gson)
     }
 }

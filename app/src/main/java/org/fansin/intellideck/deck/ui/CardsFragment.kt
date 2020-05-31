@@ -47,7 +47,6 @@ class CardsFragment : Fragment(), ConnectionObserver {
     private val navController by lazy {
         findNavController()
     }
-    private var isConnected = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,7 +79,7 @@ class CardsFragment : Fragment(), ConnectionObserver {
                 true
             }
             R.id.action_connect -> {
-                if (isConnected) {
+                if (deckClient.isConnected) {
                     deckClient.disconnect()
                 } else {
                     connectionDialog.showDialog(this) { ip ->
@@ -94,17 +93,15 @@ class CardsFragment : Fragment(), ConnectionObserver {
     }
 
     override fun onConnected() {
-        isConnected = true
         updateTitle()
     }
 
     override fun onDisconnected() {
-        isConnected = false
         updateTitle()
     }
 
     private fun updateTitle() {
-        if (isConnected) {
+        if (deckClient.isConnected) {
             connectionItem.title = "Disconnect"
         } else {
             connectionItem.title = "Connect"
