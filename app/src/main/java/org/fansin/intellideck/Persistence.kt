@@ -35,6 +35,6 @@ class Persistence(
     @Suppress("UNCHECKED_CAST")
     private fun getItems(key: String): List<DeckItem> {
         val jsonItems = preferences.getString(key, "")
-        return gson.fromJson(jsonItems, Array<DeckItem>::class.java).toList()
+        return (gson.fromJson(jsonItems, Array<DeckItem>::class.java) ?: arrayOf()).toList()
     }
 }
