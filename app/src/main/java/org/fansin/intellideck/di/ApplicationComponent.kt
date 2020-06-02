@@ -9,6 +9,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         ApplicationModule::class,
+        ActivityModule::class,
         DeckModule::class
     ]
 )

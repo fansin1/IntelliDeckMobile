@@ -32,24 +32,30 @@ class DeckRepository(
         deckObservable.addObserver(deckObserver)
     }
 
+    // TODO: clean that method
     fun parseCommands(commands: String) {
         val receivedItems = mutableSetOf<DeckItem>()
         val items = commands.split("\n").dropLastWhile { it.isBlank() }
         val count = items.first().drop(6).toInt()
         for (i in 1..count) {
             val item = items[i]
-            val realName = if (item.startsWith("Run-")) {
-                item.substring(4)
-            } else {
-                item
+            val isDebug: Boolean
+            val realName: String
+            when {
+                item.startsWith("Run-") -> {
+                    isDebug = false
+                    realName = item.replace("Run-", "")
+                }
+                item.startsWith("Debug-") -> {
+                    isDebug = true
+                    realName = item.replace("Debug-", "")
+                }
+                else -> {
+                    return
+                }
             }
 
-            receivedItems.add(
-                DeckItem(
-                    DeckCommand(realName),
-                    context.getDrawable(android.R.drawable.sym_def_app_icon)!!
-                )
-            )
+            receivedItems.add(DeckItem(DeckCommand(realName, isDebug)))
         }
 
         val newActiveItems = activeItems.filter { it in receivedItems }

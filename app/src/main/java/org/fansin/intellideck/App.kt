@@ -1,10 +1,7 @@
 package org.fansin.intellideck
 
 import android.app.Application
-import org.fansin.intellideck.di.ApplicationComponent
-import org.fansin.intellideck.di.ApplicationModule
-import org.fansin.intellideck.di.DaggerApplicationComponent
-import org.fansin.intellideck.di.DeckModule
+import org.fansin.intellideck.di.*
 
 class App : Application() {
 
@@ -12,11 +9,11 @@ class App : Application() {
         lateinit var applicationComponent: ApplicationComponent
     }
 
-    override fun onCreate() {
-        super.onCreate()
+    fun onMainActivityCreated(activity: MainActivity) {
         applicationComponent = DaggerApplicationComponent
             .builder()
             .applicationModule(ApplicationModule(this))
+            .activityModule(ActivityModule(activity))
             .deckModule(DeckModule())
             .build()
     }

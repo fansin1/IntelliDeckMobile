@@ -16,7 +16,9 @@ class OnDeckClicksListenerImpl(
     }
 
     override fun onCardClickListener() {
-        deckClient.sendCommand(deckItem.command)
+        if (deckClient.isConnected) {
+            deckClient.sendCommand(deckItem.command)
+        }
     }
 
     override fun onCardLongClickListener(): Boolean {

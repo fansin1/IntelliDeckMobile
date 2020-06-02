@@ -3,9 +3,13 @@ package org.fansin.intellideck.di
 import android.content.Context
 import android.os.Vibrator
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import org.fansin.intellideck.AppConfig
+import org.fansin.intellideck.MainActivity
+import org.fansin.intellideck.Persistence
+import org.fansin.intellideck.deck.domain.ConnectionObservable
 import org.fansin.intellideck.deck.domain.DeckObservable
 import org.fansin.intellideck.deck.domain.DeckRepository
 import org.fansin.intellideck.deck.network.DeckClient
@@ -63,15 +67,19 @@ class DeckModule {
     @Provides
     fun provideAddCardsAdapter(
         deckObservable: DeckObservable,
-        repository: DeckRepository
+        repository: DeckRepository,
+        addingDialog: AddingDialog
     ): AddCardsAdapter {
-        return AddCardsAdapter(deckObservable, repository)
+        return AddCardsAdapter(deckObservable, repository, addingDialog)
     }
 
     @Singleton
     @Provides
-    fun provideDeckClient(deckRepository: DeckRepository): DeckClient {
-        return DeckClient(deckRepository)
+    fun provideDeckClient(
+        deckRepository: DeckRepository,
+        connectionObservable: ConnectionObservable
+    ): DeckClient {
+        return DeckClient(deckRepository, connectionObservable)
     }
 
     @Singleton
@@ -85,7 +93,23 @@ class DeckModule {
 
     @Singleton
     @Provides
-    fun provideConnectionDialogFactory(): ConnectionDialogFactory {
-        return ConnectionDialogFactory()
+    fun provideConnectionDialog(): ConnectionDialog {
+        return ConnectionDialog()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAddingDialog(activity: MainActivity): AddingDialog {
+        return AddingDialog(activity)
+    }
+
+    @Provides
+    @Singleton
+    fun providePersistence(
+        gson: Gson,
+        context: Context,
+        deckRepository: DeckRepository
+    ): Persistence {
+        return Persistence(context, deckRepository, gson)
     }
 }

@@ -28,7 +28,6 @@ class DeckItemTouchHelperCallback(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        // Set movement flags based on the layout manager
         val dragFlags = ItemTouchHelper.UP or
                 ItemTouchHelper.DOWN or
                 ItemTouchHelper.LEFT or
@@ -46,13 +45,13 @@ class DeckItemTouchHelperCallback(
             return false
         }
 
-        // Notify the adapter of the move
         deckObservable.onItemMoved(source.adapterPosition, target.adapterPosition)
         return true
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
+
         if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             vibrator.vibrate(appConfig.onClickVibrationDuration)
         }
